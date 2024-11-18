@@ -1,57 +1,117 @@
-import Image from "next/image";
-import Link from "next/link";
-import { Youtube, Mic, Newspaper, BarChart } from "lucide-react";
+'use client'
 
-import { Button } from "@/components/ui/button";
+import { useState, useEffect } from 'react'
+import Image from "next/image"
+import Link from "next/link"
+import { Youtube, Mic, Newspaper, BarChart, Menu, X, Moon, Sun } from 'lucide-react'
+
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-
-// ... rest of your component code
+  CardFooter,
+} from "@/components/ui/card"
+import ProfileImage from '@/components/ProfileImage'
 
 export default function Home() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isDarkMode, setIsDarkMode] = useState(false)
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [isDarkMode])
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
+  const toggleTheme = () => setIsDarkMode(!isDarkMode)
+
   const youtubeVideos = [
     {
       id: "video1",
       title: "कैंसर सर्जन का दावा कैंसर बीमारी नहीं है |",
       url: "https://youtu.be/9nYnZEuM3VY?si=LS58e9jewtpg_IEk",
+      thumbnail: "https://img.youtube.com/vi/9nYnZEuM3VY/maxresdefault.jpg"
     },
     {
       id: "video2",
       title: "Power of Water Manifestation @AmiettKumar ",
       url: "https://youtu.be/twtVUvY8vzE?si=LRGCZd6_0uerZCmv",
+      thumbnail: "https://img.youtube.com/vi/twtVUvY8vzE/maxresdefault.jpg"
     },
     {
       id: "video3",
-      title:
-        "मजदूर से मालिक तक! Sanjay Kathuria Unique Formula to Become a Millionaire ",
+      title: "मजदूर से मालिक तक! Sanjay Kathuria Unique Formula to Become a Millionaire ",
       url: "https://youtu.be/Mvr3QuojbYk?si=uRXnLtlIwCbYkG2j",
+      thumbnail: "https://img.youtube.com/vi/Mvr3QuojbYk/maxresdefault.jpg"
     },
-  ];
+  ]
+
+  const services = [
+    {
+      icon: Mic,
+      title: "Podcast Production",
+      description: "Professional podcast recording and editing services tailored to your unique voice and audience.",
+    },
+    {
+      icon: Newspaper,
+      title: "Content Creation",
+      description: "Engaging written and video content crafted to captivate your brand's target audience and boost engagement.",
+    },
+    {
+      icon: BarChart,
+      title: "Digital Marketing",
+      description: "Comprehensive digital marketing strategies and execution to elevate your online presence and drive growth.",
+    },
+  ]
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
       <header className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold">
             Sarvesh Mishra
           </Link>
-          <div className="space-x-4">
-            <Link href="#about" className="hover:text-primary">
-              About
-            </Link>
-            <Link href="#videos" className="hover:text-primary">
-              Videos
-            </Link>
-            <Link href="#services" className="hover:text-primary">
-              Services
-            </Link>
+          <div className="flex items-center space-x-4">
+            <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
+              {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </Button>
+            <div className="hidden md:flex space-x-4">
+              <Link href="#about" className="hover:text-primary">
+                About
+              </Link>
+              <Link href="#videos" className="hover:text-primary">
+                Videos
+              </Link>
+              <Link href="#services" className="hover:text-primary">
+                Services
+              </Link>
+            </div>
+            <Button variant="ghost" size="icon" className="md:hidden" onClick={toggleMenu} aria-label="Toggle menu">
+              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </Button>
           </div>
         </nav>
+        {isMenuOpen && (
+          <div className="md:hidden bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="container mx-auto px-4 py-2 flex flex-col space-y-2">
+              <Link href="#about" className="hover:text-primary" onClick={toggleMenu}>
+                About
+              </Link>
+              <Link href="#videos" className="hover:text-primary" onClick={toggleMenu}>
+                Videos
+              </Link>
+              <Link href="#services" className="hover:text-primary" onClick={toggleMenu}>
+                Services
+              </Link>
+            </div>
+          </div>
+        )}
       </header>
 
       <main className="container mx-auto px-4 py-8 space-y-16">
@@ -68,14 +128,7 @@ export default function Home() {
         <section id="about" className="space-y-8">
           <h2 className="text-3xl font-semibold text-center">About Me</h2>
           <div className="flex flex-col md:flex-row gap-8 items-center">
-            {/* <Image
-              src="https://www.picmonkey.com/blog/create-the-best-profile-pic"
-              alt="Sarvesh Mishra"
-              width={300}
-              height={300}
-            /> */}
-            <img src="https://res.cloudinary.com/dtflxn49g/image/upload/v1731915678/kxboglgcvyrsfunbhsks.jpg" alt="" width={300} />
-
+            <ProfileImage />
             <p className="text-lg">
               Sarvesh Mishra is a Media Consultant and Self-Branding & Marketing
               Clarity Coach. In addition to this, he is an experienced
@@ -87,26 +140,6 @@ export default function Home() {
               Sarvesh is the founder of Red-Hot Media House and the co-founder
               of ES Digital World. He launched his current show with the belief
               that "A handshake can change the world."
-              <br />
-              To connect with Sarvesh Mishra, follow him on social media or
-              email him at sarveshshow@gmail.com. <br />
-              For official queries:- <br />
-              Red Hot Media House - info@redhotmediahouse.com <br />
-              ES digital world - esdigitalworld@gmail.com <br />
-              web:- <br />
-              <Link
-                href="http://www.redhotmediahouse.com/"
-                className="hover:text-primary underline"
-              >
-                Red Hot Media House
-              </Link>
-              <br />
-              <Link
-                href="https://esdigitalworld.com/"
-                className="hover:text-primary underline"
-              >
-                ES Digital World
-              </Link>
             </p>
           </div>
         </section>
@@ -115,21 +148,33 @@ export default function Home() {
           <h2 className="text-3xl font-semibold text-center">Latest Videos</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {youtubeVideos.map((video) => (
-              <Card key={video.id}>
-                <CardHeader>
-                  <CardTitle>{video.title}</CardTitle>
+              <Card key={video.id} className="flex flex-col">
+                <CardHeader className="p-0">
+                  <div className="relative aspect-video w-full">
+                    <Image
+                      src={video.thumbnail}
+                      alt={video.title}
+                      fill
+                      className="object-cover rounded-t-lg"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </div>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex-grow p-4">
+                  <CardTitle className="text-lg mb-2 line-clamp-2">{video.title}</CardTitle>
+                </CardContent>
+                <CardFooter className="p-4 pt-0">
                   <Link
                     href={video.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="w-full"
                   >
                     <Button variant="outline" className="w-full">
                       <Youtube className="mr-2 h-4 w-4" /> Watch on YouTube
                     </Button>
                   </Link>
-                </CardContent>
+                </CardFooter>
               </Card>
             ))}
           </div>
@@ -138,33 +183,19 @@ export default function Home() {
         <section id="services" className="space-y-8">
           <h2 className="text-3xl font-semibold text-center">My Services</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card>
-              <CardHeader>
-                <Mic className="h-8 w-8 mb-2" />
-                <CardTitle>Podcast Production</CardTitle>
-                <CardDescription>
-                  Professional podcast recording and editing services
-                </CardDescription>
-              </CardHeader>
-            </Card>
-            <Card>
-              <CardHeader>
-                <Newspaper className="h-8 w-8 mb-2" />
-                <CardTitle>Content Creation</CardTitle>
-                <CardDescription>
-                  Engaging written and video content for your brand
-                </CardDescription>
-              </CardHeader>
-            </Card>
-            <Card>
-              <CardHeader>
-                <BarChart className="h-8 w-8 mb-2" />
-                <CardTitle>Digital Marketing</CardTitle>
-                <CardDescription>
-                  Comprehensive digital marketing strategies and execution
-                </CardDescription>
-              </CardHeader>
-            </Card>
+            {services.map((service, index) => (
+              <Card key={index} className="flex flex-col">
+                <CardHeader>
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                    <service.icon className="h-6 w-6 text-primary" />
+                  </div>
+                  <CardTitle>{service.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                  <CardDescription>{service.description}</CardDescription>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </section>
 
@@ -183,5 +214,5 @@ export default function Home() {
         </div>
       </footer>
     </div>
-  );
+  )
 }
