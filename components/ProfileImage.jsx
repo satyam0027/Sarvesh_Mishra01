@@ -4,7 +4,7 @@ export default function ProfileImage() {
   return (
     <div className="relative w-[300px] h-[300px] flex-shrink-0">
       <Image
-        src="/FKYX5745.jpg"
+        src="https://res.cloudinary.com/dtflxn49g/image/upload/v1731915678/kxboglgcvyrsfunbhsks.jpg"
         alt="Sarvesh Mishra"
         fill
         sizes="(max-width: 768px) 100vw, 300px"
