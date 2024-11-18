@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: true, // Disables ESLint during builds
   },
   images: {
     remotePatterns: [
@@ -17,4 +17,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default nextConfig; // Correct for ES Modules
