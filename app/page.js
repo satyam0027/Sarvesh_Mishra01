@@ -68,13 +68,13 @@ export default function Home() {
         <section id="about" className="space-y-8">
           <h2 className="text-3xl font-semibold text-center">About Me</h2>
           <div className="flex flex-col md:flex-row gap-8 items-center">
-            <Image
-              src="/FKYX5745.jpg"
+            {/* <Image
+              src="https://www.picmonkey.com/blog/create-the-best-profile-pic"
               alt="Sarvesh Mishra"
               width={300}
               height={300}
-              className=""
-            />
+            /> */}
+            <img src="https://res.cloudinary.com/dtflxn49g/image/upload/v1731915678/kxboglgcvyrsfunbhsks.jpg" alt="" width={300} />
 
             <p className="text-lg">
               Sarvesh Mishra is a Media Consultant and Self-Branding & Marketing
